@@ -16,6 +16,15 @@ begin:
 	la $t0,data
 	add $t0,$t0,$t1
 	lb $s0, ($t0)
-	beq $s0, 9, space
-	beq $s0, 32, space
+	beq $s0, 9, skip
+	beq $s0, 32, skip
+
+skip:
+	addi $t1, $t1,1
+	j begin
+
+Exit:
+	li $v0, 10
+	syscall
+	
 	
