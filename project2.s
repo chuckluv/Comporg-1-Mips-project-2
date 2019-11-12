@@ -11,3 +11,11 @@ main:
 	la $a0, data
 	li $a1, 1001
 	syscall
+
+begin:
+	la $t0,data
+	add $t0,$t0,$t1
+	lb $s0, ($t0)
+	beq $s0, 9, space
+	beq $s0, 32, space
+	
