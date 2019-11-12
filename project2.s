@@ -29,8 +29,13 @@ during:
 	lb $s0, ($t0)
 	bge $t2, 5, invalid
 	j sort
-
-	
+sort:
+	ble $s0, 47, special
+	ble $s0, 57, integer
+	ble $s0, 84, capital
+	ble $s0, 116, lowercase
+	bge $s0, 117, special
+		
 
 
 Exit:
