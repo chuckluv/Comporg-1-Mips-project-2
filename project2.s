@@ -54,6 +54,13 @@ integer:
 	add $s1, $s1, $s0
 	multi $t3, $t3, -1	
 	j loop
+capital:
+	addi $t1, $t1, 1
+	ble $s0, 64, special
+	subi $s0, $s0, 55
+	add $s1, $s1, $s0
+	multi $t3, $t3, -1
+	j loop
 
 finish:
 
