@@ -46,7 +46,18 @@ gap:
 	
 	addi $t3,$t3, -1
 	j during			
+
+finish:
+
+	li $v0, 4
+	la $a0, output
+	syscall
+
+	li $v0, 1
 	
+	move $a0, $s1
+	syscall
+	j Exit		
 
 Exit:
 	li $v0, 10
