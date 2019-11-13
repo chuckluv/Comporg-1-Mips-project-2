@@ -86,7 +86,7 @@ lowercase:
 convert:
 	la $t0, data
 	add $t0,$t0,$t6
-	lb $s0, $t0
+	lb $s0, ($t0)
 	addi $t2,$t2, -1
 	blt $t2,0,finish
 	move $t8, $t2
@@ -99,14 +99,20 @@ sort:
 num:
 	li $t5, 48
 	sub $s0, $s0, $t5
-	li $t9, 0
 	beq $t2, 0, combine
+	li $t9, 30
 	j exp
 	
 exp:
-	li $t9, 30
+	
 	ble $t8, 1, combine
-	mul $t9, 30 
+	mul $t9, $t9, 30 
+	addi $t8, $t8, -1
+	j exp
+combine:
+	mul $s0, $t9, $s0
+	add $s1, $s1, $s0
+	li $t9, 0
 	
 	
 
