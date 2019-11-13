@@ -61,6 +61,13 @@ capital:
 	add $s1, $s1, $s0
 	multi $t3, $t3, -1
 	j loop
+lowercase:
+	addi $t1, $t1, 1	
+	ble $s0, 96, special
+	sub $s0, $s0, 87
+	add $s1, $s1, $s0
+	multi $t3, $t3, -1
+	j loop	
 
 finish:
 
