@@ -25,8 +25,9 @@ skip:
 	addi $t1, $t1,1
 	j before
 during:
+	li $t7, -1
 	la $t0,data
-	add t0,$t0,$t1
+	add $t0,$t0,$t1
 	lb $s0, ($t0)
 	bge $t2, 4, invalid
 	bge $t3, 1, invalid
@@ -50,24 +51,30 @@ gap:
 integer:
 	addi $t1, $t1, 1	
 	ble $s0, 47, special
-	subi $s0, $s0, 48
+	li $t5, 48
+	sub $s0, $s0, $t5
 	add $s1, $s1, $s0
-	multi $t3, $t3, -1	
-	j loop
+	mult $t3, $t7	
+	mfhi $t3
+	j during
 capital:
 	addi $t1, $t1, 1
 	ble $s0, 64, special
-	subi $s0, $s0, 55
+	li $t5, 55
+	sub $s0, $s0, $t5
 	add $s1, $s1, $s0
-	multi $t3, $t3, -1
-	j loop
+	mult $t3, $t7
+	mfhi $t3
+	j during
 lowercase:
 	addi $t1, $t1, 1	
 	ble $s0, 96, special
-	sub $s0, $s0, 87
+	li $t5, 87
+	sub $s0, $s0, $t5
 	add $s1, $s1, $s0
-	multi $t3, $t3, -1
-	j loop	
+	mult $t3, $t7
+	mfhi $t3
+	j during	
 
 finish:
 
@@ -87,7 +94,7 @@ invalid:
 	syscall
 	
 	li $v0, 1
-	move $a0, $t7
+	move $a0, $s1
 	syscall
 	j Exit
 
