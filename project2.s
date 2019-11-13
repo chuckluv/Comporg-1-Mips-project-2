@@ -102,6 +102,12 @@ num:
 	beq $t2, 0, combine
 	li $t9, 30
 	j exp
+upper:
+	li $t5, 55
+	sub $s0, $s0, $t5
+	beq $t2, 0, combine
+	li $t9, 30
+	j exp
 	
 exp:
 	
@@ -112,7 +118,8 @@ exp:
 combine:
 	mul $s0, $t9, $s0
 	add $s1, $s1, $s0
-	li $t9, 0
+	li $t9, 1
+	j convert
 	
 	
 
