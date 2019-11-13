@@ -19,6 +19,7 @@ before:
 	beq $s0, 0, finish
 	beq $s0, 9, skip
 	beq $s0, 32, skip
+	move $t6, $t1
 	j during
 
 skip:
@@ -31,9 +32,9 @@ during:
 	lb $s0, ($t0)
 	bge $t2, 5, invalid
 	bge $t3, 1, invalid
-	j sort
-sort:
-	beq $s0, 0, finish
+	j check
+check:
+	beq $s0, 0, convert
 	ble $s0, 47, special
 	ble $s0, 57, integer
 	ble $s0, 84, capital
@@ -43,7 +44,7 @@ special:
 	addi $t1,$t1, 1
 	beq $s0, 9,  gap
 	beq $s0, 32, gap
-	beq $s0, 10, finish
+	beq $s0, 10, convert
 	j invalid
 gap:
 	
@@ -81,6 +82,33 @@ lowercase:
 	add $s1, $s1, $s0
 	mul $t3, $t3, $t7
 	j during	
+
+convert:
+	la $t0, data
+	add $t0,$t0,$t6
+	lb $s0, $t0
+	addi $t2,$t2, -1
+	blt $t2,0,finish
+	move $t8, $t2
+	j sort
+sort:
+	ble $s0, 57, num
+	ble $s0, 84, upper
+	ble $s0, 116, lower
+
+num:
+	li $t5, 48
+	sub $s0, $s0, $t5
+	li $t9, 0
+	beq $t2, 0, combine
+	j exp
+	
+exp:
+	li $t9, 30
+	ble $t8, 1, combine
+	mul $t9, 30 
+	
+	
 
 finish:
 
