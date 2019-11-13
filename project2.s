@@ -58,7 +58,7 @@ integer:
 	
 	li $t5, 48
 	sub $s0, $s0, $t5
-	add $s1, $s1, $s0
+	#add $s1, $s1, $s0
 	mul $t3, $t3, $t7
 	j during
 capital:
@@ -68,7 +68,7 @@ capital:
 	
 	li $t5, 55
 	sub $s0, $s0, $t5
-	add $s1, $s1, $s0
+	#add $s1, $s1, $s0
 	mul $t3, $t3, $t7
 	
 	j during
@@ -79,7 +79,7 @@ lowercase:
 	
 	li $t5, 87
 	sub $s0, $s0, $t5
-	add $s1, $s1, $s0
+	#add $s1, $s1, $s0
 	mul $t3, $t3, $t7
 	j during	
 
@@ -88,6 +88,7 @@ convert:
 	add $t0,$t0,$t6
 	lb $s0, ($t0)
 	addi $t2,$t2, -1
+	addi $t6, $t6, 1
 	blt $t2,0,finish
 	move $t8, $t2
 	j sort
@@ -108,6 +109,12 @@ upper:
 	beq $t2, 0, combine
 	li $t9, 30
 	j exp
+lower:
+	li $t5, 87
+	sub $s0, $s0, $t5
+	beq $t2, 0, combine
+	li $t9, 30
+	j exp
 	
 exp:
 	
@@ -116,23 +123,26 @@ exp:
 	addi $t8, $t8, -1
 	j exp
 combine:
-	mul $s0, $t9, $s0
-	add $s1, $s1, $s0
+	mul $s2, $t9, $s0
+	add $s1, $s1, $s2
+	#move $t4, $t9
 	li $t9, 1
+	#j finish
 	j convert
 	
 	
 
 finish:
-
+	
 	li $v0, 4
 	la $a0, output
 	syscall
 
 	li $v0, 1
 	
-	move $a0, $t2
+	move $a0, $s1
 	syscall
+	#bge $t2,0,convert
 	j Exit	
 	
 invalid:
