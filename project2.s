@@ -11,12 +11,13 @@ main:
 	la $a0, data
 	li $a1, 1001
 	syscall
-
+	jal before
+	j finish
 before:
 	la $t0,data
 	add $t0,$t0,$t1
 	lb $s0, ($t0)
-	beq $s0, 0, finish
+	beq $s0, 0, convert
 	beq $s0, 9, skip
 	beq $s0, 32, skip
 	move $t6, $t1
@@ -89,7 +90,7 @@ convert:
 	lb $s0, ($t0)
 	addi $t2,$t2, -1
 	addi $t6, $t6, 1
-	blt $t2,0,finish
+	blt $t2,0,done
 	move $t8, $t2
 	j sort
 sort:
@@ -100,18 +101,21 @@ sort:
 num:
 	li $t5, 48
 	sub $s0, $s0, $t5
+	li $t9, 1
 	beq $t2, 0, combine
 	li $t9, 30
 	j exp
 upper:
 	li $t5, 55
 	sub $s0, $s0, $t5
+	li $t9, 1
 	beq $t2, 0, combine
 	li $t9, 30
 	j exp
 lower:
 	li $t5, 87
 	sub $s0, $s0, $t5
+	li $t9, 1
 	beq $t2, 0, combine
 	li $t9, 30
 	j exp
@@ -130,7 +134,7 @@ combine:
 	#j finish
 	j convert
 	
-	
+done: jr $ra	
 
 finish:
 	
